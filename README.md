@@ -16,6 +16,24 @@ git clone git@github.com:nas-tabchiche/sample-express.git
 git remote set-url origin git@github.com:<github-username>/<repo-name>.git
 ```
 
+### Install and run the application
+
+Requirements:
+- Node 22+
+- npm
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Run the application
+
+```
+node app.ts
+```
+
 ### Dockerize and publish the image
 
 1. Write a Dockerfile
