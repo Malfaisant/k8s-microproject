@@ -40,7 +40,7 @@ docker push <username>/sample-express
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-express-deploymen
+  name: sample-express-deployment
 spec:
   ...
 ```
