@@ -21,6 +21,7 @@ git remote set-url origin git@github.com:<github-username>/<repo-name>.git
 Requirements:
 - Node 22+
 - npm
+- cURL
 
 1. Install dependencies
 
@@ -33,6 +34,14 @@ npm install
 ```
 node app.ts
 ```
+
+3. Send a GET request to the exposed endpoint
+
+```bash
+curl http://localhost:3000/
+```
+
+The output should be 'Hello, Kubernetes!'
 
 ### Dockerize and publish the image
 
