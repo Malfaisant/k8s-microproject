@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8s-microproject-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: k8s-microproject.local # Le nom de domaine que tu veux utiliser (à configurer localement si besoin)
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: k8s-microproject-service # Nom du service Kubernetes à exposer
+                port:
+                  number: 3000 # Le port de ton service exposé par l'Ingress
