@@ -61,7 +61,7 @@ docker push <username>/sample-express
 
 ### Step 4 - Create and expose your first deployment
 
-1. Write a `deployment.yaml` file containing the information about your deployment
+1. Write a `deployment.yaml` file describing your deployment
 
 ```yaml
 apiVersion: apps/v1
@@ -72,7 +72,7 @@ spec:
   ...
 ```
 
-2. Write a `service.yaml`fiel containing the information about your service
+2. Write a `service.yaml`file describing your service
 
 ```yaml
 apiVersion: v1
