@@ -5,7 +5,7 @@
 1. Clone this repository
 
 ```bash
-git clone git@github.com:nas-tabchiche/sample-express.git
+git clone git@github.com:nas-tabchiche/k8s-microproject.git
 ```
 
 2. Create your own repository on Github
@@ -47,16 +47,16 @@ The output should be 'Hello, Kubernetes!'
 
 1. Write a Dockerfile
 
-2. Build your image with the `sample-express` tag
+2. Build your image with the `k8s-microproject` tag
 
 ```bash
-docker build . -t <username>/sample-express
+docker build . -t <username>/k3s-microproject
 ```
 
 3. Publish the image on dockerhub
 
 ```bash
-docker push <username>/sample-express
+docker push <username>/k8s-microproject
 ```
 
 ### Step 4 - Create and expose your first deployment
@@ -67,7 +67,7 @@ docker push <username>/sample-express
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-express-deployment
+  name: k8s-microproject-deployment
 spec:
   ...
 ```
@@ -78,7 +78,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sample-express-service
+  name: k8s-microproject-service
 spec:
 ```
 
@@ -102,7 +102,7 @@ kubectl get pods
 
 ```bash
 # If you use minikube
-minikube service sample-express-service --url
+minikube service k8s-microproject-service --url
 ```
 
 6. Send a GET request to the exposed endpoint
@@ -121,7 +121,7 @@ The output should be 'Hello, Kubernetes!'
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sample-express-ingress
+  name: k8s-microproject-ingress
 spec:
   ...
 ```
