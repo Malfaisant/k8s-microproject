@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-microproject-deployment
+  labels:
+    app: k8s-microproject
+spec:
+  replicas: 3  # Le nombre de pods que tu souhaites avoir
+  selector:
+    matchLabels:
+      app: k8s-microproject
+  template:
+    metadata:
+      labels:
+        app: k8s-microproject
+    spec:
+      containers:
+      - name: k8s-microproject-container
+        image: minkael/k8_node:latest  # L'image Docker à utiliser
+        ports:
+        - containerPort: 3000  # Le port sur lequel ton conteneur écoute
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
