@@ -1,6 +1,6 @@
 ## Steps
 
-### Initial project setup
+### Step 1 - Initial project setup
 
 1. Clone this repository
 
@@ -16,7 +16,7 @@ git clone git@github.com:nas-tabchiche/sample-express.git
 git remote set-url origin git@github.com:<github-username>/<repo-name>.git
 ```
 
-### Install and run the application
+### Step 2 - Install and run the application
 
 Requirements:
 - Node 22+
@@ -43,7 +43,7 @@ curl http://localhost:3000/
 
 The output should be 'Hello, Kubernetes!'
 
-### Dockerize and publish the image
+### Step 3 - Dockerize and publish the image
 
 1. Write a Dockerfile
 
@@ -59,7 +59,7 @@ docker build . -t <username>/sample-express
 docker push <username>/sample-express
 ```
 
-### Create and expose your first deployment
+### Step 4 - Create and expose your first deployment
 
 1. Write a `deployment.yaml` file containing the information about your deployment
 
@@ -98,4 +98,48 @@ kubectl get pods
 > [!NOTE]
 > Their status should be 'Running'. It might take a few seconds to get there.
 
-5. Access your application
+5. Expose your application
+
+```bash
+# If you use minikube
+minikube service sample-express-service --url
+```
+
+6. Send a GET request to the exposed endpoint
+
+```bash
+curl <URL of the exposed service>
+```
+
+The output should be 'Hello, Kubernetes!'
+
+### Step 5 - Create an ingress
+
+1. Write a `ingress.yaml` file describing your ingress
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-express-ingress
+spec:
+  ...
+```
+
+2. Apply your ingress
+
+```bash
+kubectl apply -f ingress.yaml
+```
+
+3. Check that your ingress is operational
+
+```bash
+kubectl get ingress
+```
+
+4. Send a GET request to the ingress
+
+```bash
+curl --resolve "<ingress-host>:80:<ingress-address>" -i http://<ingress-host>/
+```
