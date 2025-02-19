@@ -4,15 +4,21 @@ metadata:
   name: k8s-microproject-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - k8s.local
+    secretName: tls-secret
   rules:
-    - host: k8s-microproject.local # Le nom de domaine que tu veux utiliser (à configurer localement si besoin)
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: k8s-microproject-service # Nom du service Kubernetes à exposer
-                port:
-                  number: 3000 # Le port de ton service exposé par l'Ingress
+  - host: k8s.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: k8s-microproject-service
+            port:
+              number: 80

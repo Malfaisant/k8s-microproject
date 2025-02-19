@@ -1,145 +1,53 @@
-## Steps
+# Projet Kubernetes Node.js
 
-### Step 1 - Initial project setup
+Ce projet est une application Node.js déployée sur Kubernetes avec diverses fonctionnalités dont HTTPS, logging persistant, et haute disponibilité.
 
-1. Clone this repository
+## Objectifs du projet
 
-```bash
-git clone git@github.com:nas-tabchiche/k8s-microproject.git
-```
+Cette application doit répondre aux exigences suivantes :
+1. Liveness probe configurée
+2. Support HTTPS via Ingress
+3. Persistance des logs dans un PersistentVolume
+4. Variables d'environnement dans un ConfigMap
+5. Déploiement via StatefulSet
 
-2. Create your own repository on Github
+## Prérequis
 
-3. Change the repote to your repository
-
-```bash
-git remote set-url origin git@github.com:<github-username>/<repo-name>.git
-```
-
-### Step 2 - Install and run the application
-
-Requirements:
-- Node 22+
+- Docker installé et configuré
+- Minikube installé
+- kubectl installé
+- Un compte Docker Hub
+- Node.js v20 ou supérieur
 - npm
-- cURL
 
-1. Install dependencies
+## Installation et Configuration
 
+1. Cloner le projet et installer les dépendances :
 ```bash
+git clone https://github.com/Malfaisant/k8s-microproject.git
+cd k8s-microproject
 npm install
 ```
 
-2. Run the application
+## lignes commandes pour tester
 
-```
-node app.ts
-```
+Appliquer toutes les configurations
+- kubectl apply -f .
 
-3. Send a GET request to the exposed endpoint
+- Test Liveness probe
+kubectl describe pod k8s-microproject-0 | grep Liveness
 
-```bash
-curl http://localhost:3000/
-```
+- Test HTTPS
+curl -k https://k8s.local/
 
-The output should be 'Hello, Kubernetes!'
+- Test healthcheck
+curl -k https://k8s.local/healthz
 
-### Step 3 - Dockerize and publish the image
+- Test Persistance
+kubectl exec k8s-microproject-0 -- cat /app/logs/access.log
 
-1. Write a Dockerfile
+- Test Varibale d'environnement
+kubectl exec k8s-microproject-0 -- env | grep PORT
 
-2. Build your image with the `k8s-microproject` tag
-
-```bash
-docker build . -t <username>/k3s-microproject
-```
-
-3. Publish the image on dockerhub
-
-```bash
-docker push <username>/k8s-microproject
-```
-
-### Step 4 - Create and expose your first deployment
-
-1. Write a `deployment.yaml` file describing your deployment
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: k8s-microproject-deployment
-spec:
-  ...
-```
-
-2. Write a `service.yaml`file describing your service
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: k8s-microproject-service
-spec:
-```
-
-3. Apply your deployment and service
-
-```bash
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-```
-
-4. Check that your pods are running
-
-```bash
-kubectl get pods
-```
-
-> [!NOTE]
-> Their status should be 'Running'. It might take a few seconds to get there.
-
-5. Expose your application
-
-```bash
-# If you use minikube
-minikube service k8s-microproject-service --url
-```
-
-6. Send a GET request to the exposed endpoint
-
-```bash
-curl <URL of the exposed service>
-```
-
-The output should be 'Hello, Kubernetes!'
-
-### Step 5 - Create an ingress
-
-1. Write a `ingress.yaml` file describing your ingress
-
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: k8s-microproject-ingress
-spec:
-  ...
-```
-
-2. Apply your ingress
-
-```bash
-kubectl apply -f ingress.yaml
-```
-
-3. Check that your ingress is operational
-
-```bash
-kubectl get ingress
-```
-
-4. Send a GET request to the ingress
-
-```bash
-curl --resolve "<ingress-host>:80:<ingress-address>" -i http://<ingress-host>/
-```
+- Test Statefukset
+kubectl get statefulset

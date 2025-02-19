@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: k8s-microproject
+spec:
+  serviceName: "k8s-microproject"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-microproject
+  template:
+    metadata:
+      labels:
+        app: k8s-microproject
+    spec:
+      containers:
+      - name: k8s-microproject
+        image: tomtomtom650/k8_node:latest
+        ports:
+        - containerPort: 3000
+
+        envFrom:
+          - configMapRef:
+              name: app-config 
+
+        volumeMounts:
+          - name: logs-storage
+            mountPath: /app/logs
+
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          failureThreshold: 3
+
+      volumes:
+        - name: logs-storage
+          persistentVolumeClaim:
+            claimName: logs-pvc
